@@ -2,9 +2,6 @@
 
 from flask import Flask,render_template,request
 import  pandas as pd
-import numpy as np 
-import datetime as dt
-import os
 from fbprophet import Prophet
 app=Flask(__name__)
 
