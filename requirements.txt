@@ -1,7 +1,7 @@
 requests==2.22.0
 Flask==1.1.1
 Flask-Cors==3.0.8
-pandas==1.0.1
+pandas==1.0.4
 python-dateutil==2.8.1
 numpy==1.18.1
 fbprophet==0.7.1
