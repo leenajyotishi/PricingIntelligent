@@ -17,11 +17,11 @@ def Index():
 def data():
     if request.method=='POST':
         
-        file=request.form['upload-file']
-        # profile = request.files['upload-file']
+       # file=request.form['upload-file']
+        profile = request.files['upload-file']
         Noofmonths=int(request.form['Noofmonths'])
-        # profile.save(profile.filename)  
-        data=pd.read_excel(file)
+        profile.save(profile.filename)  
+        data=pd.read_excel(profile.filename)
         df2 = pd.DataFrame(data)
         # df2.set_index('Product', inplace=True)
        # data1 = {'Product':['P1', 'P2'],'2017-01-01':['12','92'],'2017-02-01':['13','99'],'2017-03-01':['15','98'],
