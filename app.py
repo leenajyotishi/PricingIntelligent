@@ -1,20 +1,14 @@
-# -*- coding: utf-8 -*-
+from flask import Flask, request, jsonify, render_template
 
-from flask import Flask,render_template,request
-import  pandas as pd
-from fbprophet import Prophet
 app=Flask(__name__)
 
-
-
-@app.route('/', methods=['GET','POST'])
-def Index():
+@app.route('/')
+def home():
     return render_template('index.html')
     
-@app.route('/data',methods=['GET','POST'])
+@app.route('/data',methods=['POST'])        
 def data():
-    if request.method=='POST':
     return render_template('index.html')
         
-if __name__=='__main__':
+if __name__ == "__main__":
     app.run(debug=True)
