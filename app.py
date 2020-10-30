@@ -9,9 +9,13 @@ def home():
     
 @app.route('/data',methods=['POST'])        
 def data():
+    profile = request.files['upload-file']
+    Noofmonths=int(request.form['Noofmonths'])
+    profile.save(profile.filename) 
+    data=pd.read_excel(profile.filename)
     data1 = {'Product':['P1', 'P2'],'2017-01-01':['12','92'],'2017-02-01':['13','99'],'2017-03-01':['15','98'],
        '2017-04-01':['12','95']}
-    df1 = pd.DataFrame(data1)
+    df1 = pd.DataFrame(data)
     gapminder_tidy = df1.melt(id_vars=["Product"], 
                               var_name="year", 
                               value_name="Amount")
@@ -22,7 +26,7 @@ def data():
         group = grouped.get_group(g)
         m = Prophet()
         m.fit(group)
-        future = m.make_future_dataframe(periods=12, freq='M')
+        future = m.make_future_dataframe(periods=Noofmonths, freq='M')
         forecast = m.predict(future)    
         forecast = forecast.rename(columns={'yhat': g})
         final = pd.merge(final, forecast.set_index('ds'), how='outer', left_index=True, right_index=True)
