@@ -32,4 +32,3 @@ Werkzeug==1.0.0
 widgetsnbextension==3.5.1
 itsdangerous==1.1.0
 sm>=0.1.8
-boto3==1.16.9
