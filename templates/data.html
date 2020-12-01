@@ -4,15 +4,41 @@
 <head>
   <meta charset="UTF-8">
   <title>Pricing Intelligent Tool</title>
-  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-{{data | safe }}
+<div class="container">
+  <h2>Pricing Intelligent Tool</h2>
+  <p></p>
+        <th>Product Name</th>
+        <th>Price</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+    {% if data %}   
+    {% for i in data %} 
+      <tr> 
+        <td>{{i.ds}}</td> 
+        <td>{{i.QBC}}</td> 
+      
+      </tr> 
+   {% endfor %} 
+    {% endif %}  
+    {{data | safe}}
+    </div>
+    </tr>
+      <tr>
+       
+      
+      </tr>
+     
+    </tbody>
+  </table>
+</div>
+
 
 </body>
 </html>

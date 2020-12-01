@@ -1,22 +1,24 @@
 from flask import Flask, request, jsonify, render_template,redirect,url_for
 import pandas as pd
 from fbprophet import Prophet
-import os,json,boto3
 app=Flask(__name__)
 
 @app.route('/')
 def home():
-    return render_template('Demo.html')
+    return render_template('Main.html')
     
 @app.route('/data',methods=['POST'])        
 def data():
-    profile = request.files['upload-file']
+   
     Noofmonths=int(request.form['Noofmonths'])
-    profile.save(profile.filename) 
-    data=pd.read_excel(profile.filename)
-    data1 = {'Product':['P1', 'P2'],'2017-01-01':['12','92'],'2017-02-01':['13','99'],'2017-03-01':['15','98'],
-       '2017-04-01':['12','95']}
-    df1 = pd.DataFrame(data)
+    Productnm=request.form['Product']
+    PriceQ1=int(request.form['Quarter1'])
+    PriceQ2=int(request.form['Quarter2'])
+    PriceQ3=int(request.form['Quarter3'])
+    PriceQ4=int(request.form['Quarter4'])
+    data1 = {'Product':[Productnm],'2020-01-01':[PriceQ1],'2020-03-01':[PriceQ2],'2020-06-01':[PriceQ3],
+       '2020-09-01':[PriceQ4]}
+    df1 = pd.DataFrame(data1)
     gapminder_tidy = df1.melt(id_vars=["Product"], 
                               var_name="year", 
                               value_name="Amount")
@@ -32,31 +34,10 @@ def data():
         forecast = forecast.rename(columns={'yhat': g})
         final = pd.merge(final, forecast.set_index('ds'), how='outer', left_index=True, right_index=True)
     final = final[[ g for g in grouped.groups.keys()]]
-    return render_template('data.html', data=final.to_html())
- 
-@app.route('/sign_s3/')
-def sign_s3():
-  S3_BUCKET = os.environ.get('S3_BUCKET')
+    dff = pd.DataFrame(final)
+    dff = dff.rename(columns={'ds': 'd'})
+    return render_template('data.html', data=dff.to_html(classes='form-group'))
 
-  file_name = request.args.get('file_name')
-  file_type = request.args.get('file_type')
 
-  s3 = boto3.client('s3')
-
-  presigned_post = s3.generate_presigned_post(
-    Bucket = S3_BUCKET,
-    Key = file_name,
-    Fields = {"acl": "public-read", "Content-Type": file_type},
-    Conditions = [
-      {"acl": "public-read"},
-      {"Content-Type": file_type}
-    ],
-    ExpiresIn = 3600
-  )
-
-  return json.dumps({
-    'data': presigned_post,
-    'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)
-  })       
 if __name__ == "__main__":
-    app.run(host = '0.0.0.0',port=8080)
+     app.run(debug=True)
